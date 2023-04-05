@@ -15,12 +15,14 @@ class FlashcardApp(App):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Init card / question tracking
         self.cards = flash_card_dictionary.copy()
         self.card_keys = list(self.cards.keys())
         random.shuffle(self.card_keys)
         self.showing_question = True
 
     def build(self):
+        # Create the mail UI elements
         self.current_card = 0
         self.layout = BoxLayout(orientation='vertical')
         self.label = Label(text='[color=000000]' + self.card_keys[self.current_card] + '[/color]', font_size='30sp', size_hint=(1, 1), text_size=(Window.width - dp(20), None), halign='center', valign='middle', markup=True)
@@ -52,9 +54,11 @@ class FlashcardApp(App):
         return self.layout
 
     def on_window_resize(self, window, width, height):
+        # Update label text size when the window is resized.
         self.label.text_size = (width - dp(20), None)
 
     def show_answer(self, instance):
+        # Toggle between showing the question and the answer.
         if self.showing_question:
             self.label.text = '[color=000000]' + list(self.cards.values())[self.current_card] + '[/color]'
             self.show_button.text = 'Show Question'
@@ -65,6 +69,7 @@ class FlashcardApp(App):
             self.showing_question = True
 
     def right_answer(self, instance):
+        # Remove the current card and update the display.
         del self.cards[list(self.cards.keys())[self.current_card]]
         if not self.cards:
             self.label.text = '[color=000000]You have finished all the cards![/color]'
@@ -77,6 +82,7 @@ class FlashcardApp(App):
         self.show_button.text = 'Show Answer'
 
     def wrong_answer(self, instance):
+        # The current card is returned to the deck. A new card is displayed.
         self.current_card = (self.current_card + 1) % len(self.cards)
         self.label.text = '[color=000000]' + list(self.cards.keys())[self.current_card] + '[/color]'
         self.show_button.text = 'Show Answer'
