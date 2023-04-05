@@ -7,15 +7,9 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 import random
 from kivy.graphics import Color, Rectangle
+from flash_cards import flash_card_dictionary
 
 kivy.require('2.0.0')
-
-flash_card_dictionary = {
-    'maligayang bati': 'happy birthday',
-    'maligayang pasko': 'merry christmas',
-    'manigong bagong taon': 'happy new year',
-}
-
 
 class FlashcardApp(App):
 
